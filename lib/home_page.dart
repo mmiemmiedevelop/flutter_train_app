@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-//import 'station_list_page.dart';
+import 'station_list_page.dart';
 import 'seat_page.dart';
 import 'constants/lang.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  // setState쓰면서 부터 StatefulWidget 사용
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String? _departureStation;
+  String? _arrivalStation;
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +59,26 @@ class MyHomePage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      Lang.select,
+                                      _departureStation ?? Lang.select,
                                       style: TextStyle(fontSize: 40),
                                     ),
                                     Spacer(),
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                final selectedStation = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SeatPage(),
+                                    builder: (context) =>
+                                        StationListPage(title: Lang.departure),
                                   ),
                                 );
+                                if (selectedStation != null) {
+                                  setState(() {
+                                    _departureStation = selectedStation;
+                                  });
+                                }
                               },
                             ),
                           ),
@@ -92,20 +107,26 @@ class MyHomePage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      Lang.select,
+                                      _arrivalStation ?? Lang.select,
                                       style: TextStyle(fontSize: 40),
                                     ),
                                     Spacer(),
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                final selectedStation = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SeatPage(),
+                                    builder: (context) =>
+                                        StationListPage(title: Lang.arrival),
                                   ),
                                 );
+                                if (selectedStation != null) {
+                                  setState(() {
+                                    _arrivalStation = selectedStation;
+                                  });
+                                }
                               },
                             ),
                           ),

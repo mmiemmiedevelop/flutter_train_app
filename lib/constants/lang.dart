@@ -5,4 +5,5 @@ class Lang {
   static const String arrival = '도착역';
   static const String select = '선택';
   static const String selectSeat = '좌석 선택';
+  static const String stationList = '역 목록';
 }
