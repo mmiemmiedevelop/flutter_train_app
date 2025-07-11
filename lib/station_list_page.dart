@@ -11,47 +11,46 @@ class StationListPage extends StatelessWidget {
       appBar: AppBar(title: Text(title)),
       body: SafeArea(
         child: ListView.builder(
-          //😫separated쓰면 가이드 사진이랑 똑같은데 오른쪽에 텍스트로 써있는 스타일 가이드대로 작업함
-          itemBuilder: (context, index) {
-            return StationListItem(stationName: stationNames[index]);
-          },
+          padding: EdgeInsets.zero,
           itemCount: stationNames.length,
+          itemBuilder: (context, index) {
+            return StationListItem(
+              stationName: stationNames[index],
+              onSelected: (name) {
+                Navigator.pop(context, name);
+              },
+            );
+          },
         ),
       ),
     );
   }
 }
 
-// 역 목록 아이템
 class StationListItem extends StatelessWidget {
   final String stationName;
-  const StationListItem({super.key, required this.stationName});
+  final ValueChanged<String> onSelected;
+
+  const StationListItem({
+    super.key,
+    required this.stationName,
+    required this.onSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Container(
-        width: double.infinity,
-        height: 50,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                stationName,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Divider(color: Colors.grey[300], thickness: 1, height: 1),
-          ],
+    return SizedBox(
+      height: 50,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        title: Text(
+          stationName,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        onTap: () => onSelected(stationName),
+        shape: Border(bottom: BorderSide(color: Colors.grey[300]!, width: 1)),
+        tileColor: Colors.white,
       ),
-      onTap: () {
-        Navigator.pop(context, stationName);
-      },
     );
   }
 }
