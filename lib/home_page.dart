@@ -19,8 +19,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(Lang.train),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ), //AppBar를 사용하게 되면 SafeArea는 자동으로 잡아줌
       body: Container(
         color: Colors.grey[300],
