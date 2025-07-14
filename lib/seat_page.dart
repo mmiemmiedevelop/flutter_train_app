@@ -23,7 +23,6 @@ class _SeatPageState extends State<SeatPage> {
   int? selectedCol;
   String? selectedSeat;
 
-
   void onSelectedSeat(int row, int col) {
     setState(() {
       selectedRow = row;

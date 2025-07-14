@@ -4,7 +4,6 @@ import 'seat_page.dart';
 import 'constants/lang.dart';
 
 class MyHomePage extends StatefulWidget {
-  // setState쓰면서 부터 StatefulWidget 사용
   const MyHomePage({super.key});
 
   @override
@@ -14,178 +13,188 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String? _departureStation;
   String? _arrivalStation;
-  String? _selectedSeat;//안쓰지만 추후 쓸수도있으니까 생성 > 예매까지 끝난 정보
+  String? _selectedSeat;// 일단만들어둠 > 추후쓸지도...
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Lang.train),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      ), //AppBar를 사용하게 되면 SafeArea는 자동으로 잡아줌
-      body: Container(
-        color: Colors.grey[300],
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 200,
-                    child: IntrinsicHeight(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              child: Container(
-                                color: Colors.transparent,
-                                child: Column(
-                                  children: [
-                                    Spacer(),
-                                    Text(
-                                      Lang.departure,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      _departureStation ?? Lang.select,
-                                      style: TextStyle(fontSize: 40),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                              ),
-                              onTap: () async {
-                                final selectedStation = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StationListPage(
-                                      title: Lang.departure,
-                                      excludeStation: _arrivalStation, // 도착역 제외
-                                    ),
-                                  ),
-                                );
-                                if (selectedStation != null) {
-                                  setState(() {
-                                    _departureStation = selectedStation;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 80),
-                            child: VerticalDivider(
-                              color: Colors.grey[400],
-                              thickness: 2,
-                              width: 2,
-                            ),
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                              child: Container(
-                                color: Colors.transparent,
-                                child: Column(
-                                  children: [
-                                    Spacer(),
-                                    Text(
-                                      Lang.arrival,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      _arrivalStation ?? Lang.select,
-                                      style: TextStyle(fontSize: 40),
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                              ),
-                              onTap: () async {
-                                final selectedStation = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StationListPage(
-                                      title: Lang.arrival,
-                                      excludeStation:
-                                          _departureStation, // 출발역 제외
-                                    ),
-                                  ),
-                                );
-                                if (selectedStation != null) {
-                                  setState(() {
-                                    _arrivalStation = selectedStation;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: Colors.purple,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeatPage(
-                          departureStation: _departureStation ?? '',
-                          arrivalStation: _arrivalStation ?? '',
-                        ),
-                      ),
-                    ).then((selectedSeat) {
-                      if (selectedSeat != null) {
-                        _selectedSeat = selectedSeat;
-                      }
-                      // SeatPage에서 돌아왔을 때 상태 초기화
+    return Scaffold(appBar: _buildAppBar(), body: _buildBody());
+  }
+
+  // 1. 앱바
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: Text(Lang.train),
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+    );
+  }
+
+  // 2. 바디
+  Widget _buildBody() {
+    return Container(
+      color: Colors.grey[300],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            _buildStationSelectionCard(),
+            const SizedBox(height: 20),
+            _buildSelectSeatButton(),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //3. 출발역, 도착역 선택
+  Widget _buildStationSelectionCard() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          height: 200,
+          child: IntrinsicHeight(
+            child: Row(
+              children: [
+                Expanded(
+                  child: _buildStationSelector(
+                    title: Lang.departure,
+                    selectedStation: _departureStation,
+                    excludeStation: _arrivalStation,
+                    onStationSelected: (station) {
                       setState(() {
-                        _departureStation = null;
-                        _arrivalStation = null;
+                        _departureStation = station;
                       });
-                    });
-                  },
-                  child: const Text(Lang.selectSeat),
+                    },
+                  ),
                 ),
-              ),
-              Spacer(),
-            ],
+                _buildVerticalDivider(),
+                Expanded(
+                  child: _buildStationSelector(
+                    title: Lang.arrival,
+                    selectedStation: _arrivalStation,
+                    excludeStation: _departureStation,
+                    onStationSelected: (station) {
+                      setState(() {
+                        _arrivalStation = station;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildStationSelector({
+    required String title,
+    required String? selectedStation,
+    required String? excludeStation,
+    required Function(String) onStationSelected,
+  }) {
+    return GestureDetector(
+      child: Container(
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            const Spacer(),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
+            ),
+            Text(
+              selectedStation ?? Lang.select,
+              style: const TextStyle(fontSize: 40),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+      onTap: () =>
+          _navigateToStationList(title, excludeStation, onStationSelected),
+    );
+  }
+
+  Widget _buildVerticalDivider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 80),
+      child: VerticalDivider(color: Colors.grey[400], thickness: 2, width: 2),
+    );
+  }
+
+  //4. 좌석 선택 버튼
+  Widget _buildSelectSeatButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ElevatedButton(
+        style: _getButtonStyle(),
+        onPressed: _navigateToSeatPage,
+        child: const Text(Lang.selectSeat),
+      ),
+    );
+  }
+
+  ButtonStyle _getButtonStyle() {
+    return ElevatedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      backgroundColor: Colors.purple,
+      foregroundColor: Colors.white,
+      minimumSize: const Size(double.infinity, 48),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    );
+  }
+
+  // Future<void> 아무것도 반환하지 않는 "비동기" 함수 > push는 비동기 작업
+  Future<void> _navigateToStationList(
+    String title,
+    String? excludeStation,
+    Function(String) onStationSelected,
+  ) async {
+    final selectedStation = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            StationListPage(title: title, excludeStation: excludeStation),
+      ),
+    );
+
+    if (selectedStation != null) {
+      onStationSelected(selectedStation);
+    }
+  }
+
+  void _navigateToSeatPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SeatPage(
+          departureStation: _departureStation ?? '',
+          arrivalStation: _arrivalStation ?? '',
+        ),
+      ),
+    ).then((selectedSeat) {
+      if (selectedSeat != null) {
+        _selectedSeat = selectedSeat;
+      }
+      // SeatPage에서 돌아왔을 때 상태 초기화
+      setState(() {
+        _departureStation = null;
+        _arrivalStation = null;
+      });
+    });
   }
 }
