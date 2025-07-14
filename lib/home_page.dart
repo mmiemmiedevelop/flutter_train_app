@@ -155,7 +155,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SeatPage()),
+                      MaterialPageRoute(
+                          builder: (context) => SeatPage(
+                                departureStation: _departureStation ?? '',
+                                arrivalStation: _arrivalStation ?? '',
+                              )),
                     );
                   },
                   child: const Text(Lang.selectSeat),
