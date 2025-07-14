@@ -6,4 +6,7 @@ class Lang {
   static const String select = '선택';
   static const String selectSeat = '좌석 선택';
   static const String stationList = '역 목록';
+  static const String reserve = '예매 하기';
+  static const String selected = '선택됨';
+  static const String empty = '빈 좌석';
 }
