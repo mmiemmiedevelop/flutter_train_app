@@ -14,6 +14,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String? _departureStation;
   String? _arrivalStation;
+  String? _selectedSeat;//안쓰지만 추후 쓸수도있으니까 생성 > 예매까지 끝난 정보
 
   @override
   Widget build(BuildContext context) {
@@ -156,11 +157,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SeatPage(
-                                departureStation: _departureStation ?? '',
-                                arrivalStation: _arrivalStation ?? '',
-                              )),
-                    );
+                        builder: (context) => SeatPage(
+                          departureStation: _departureStation ?? '',
+                          arrivalStation: _arrivalStation ?? '',
+                        ),
+                      ),
+                    ).then((selectedSeat) {
+                      if (selectedSeat != null) {
+                        _selectedSeat = selectedSeat;
+                      }
+                      // SeatPage에서 돌아왔을 때 상태 초기화
+                      setState(() {
+                        _departureStation = null;
+                        _arrivalStation = null;
+                      });
+                    });
                   },
                   child: const Text(Lang.selectSeat),
                 ),

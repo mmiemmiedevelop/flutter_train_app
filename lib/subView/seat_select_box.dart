@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SeatSelectBox extends StatelessWidget {
-  SeatSelectBox({
+  const SeatSelectBox({
     super.key,
     required this.onSelected,
     required this.selectedRow,
     required this.selectedCol,
   });
-  void Function(int, int) onSelected;
-  int? selectedRow;
-  int? selectedCol;
+  final void Function(int, int) onSelected;
+  final int? selectedRow;
+  final int? selectedCol;
   final int rowCount = 20;
 
   @override

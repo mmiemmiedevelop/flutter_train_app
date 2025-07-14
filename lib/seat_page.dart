@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_train_app/subView/seat_dot_view.dart';
 import 'package:flutter_train_app/subView/seat_header_view.dart';
 import 'package:flutter_train_app/subView/seat_select_box.dart';
@@ -22,14 +23,69 @@ class _SeatPageState extends State<SeatPage> {
   int? selectedCol;
   String? selectedSeat;
 
+
   void onSelectedSeat(int row, int col) {
     setState(() {
       selectedRow = row;
       selectedCol = col;
+      //좌석 예매 번호 생성>일단만들어 놓음
       selectedSeat =
           '${widget.departureStation}-${widget.arrivalStation}-${selectedRow}-${selectedCol}';
-      print('selectedSeat: $selectedSeat');
     });
+  }
+
+  void _showCupertinoDialog() {
+    //널처리
+    if (selectedRow == null ||
+        selectedCol == null ||
+        selectedRow == 0 ||
+        selectedCol == 0) {
+      return;
+    }
+
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: const Text('예매 하시겠습니까?'),
+          content: Text(
+            '좌석 : $selectedRow-${_convertToSeatColumn(selectedCol!)}',
+          ),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: const Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.pop(context, selectedSeat);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // 컬럼숫자 ABCD 변환
+  String _convertToSeatColumn(int col) {
+    switch (col) {
+      case 1:
+        return 'A';
+      case 2:
+        return 'B';
+      case 3:
+        return 'C';
+      case 4:
+        return 'D';
+      default:
+        return '';
+    }
   }
 
   @override
@@ -66,9 +122,7 @@ class _SeatPageState extends State<SeatPage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              onPressed: () {
-                Navigator.pop(context, selectedSeat);
-              },
+              onPressed: _showCupertinoDialog,
               child: const Text(Lang.reserve),
             ),
           ),
