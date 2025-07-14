@@ -3,19 +3,29 @@ import 'constants/station_list.dart';
 
 class StationListPage extends StatelessWidget {
   final String title;
-  const StationListPage({super.key, required this.title});
+  final String? excludeStation; // 제외할 역 추가
+  const StationListPage({
+    super.key,
+    required this.title,
+    this.excludeStation, // 선택적 매개변수(required 없음)
+  });
 
   @override
   Widget build(BuildContext context) {
+    // 제외할 역을 필터한 리스트 생성
+    final filteredStations = stationNames
+        .where((station) => station != excludeStation)
+        .toList();
+
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: SafeArea(
         child: ListView.builder(
           padding: EdgeInsets.zero,
-          itemCount: stationNames.length,
+          itemCount: filteredStations.length,
           itemBuilder: (context, index) {
             return StationListItem(
-              stationName: stationNames[index],
+              stationName: filteredStations[index],
               onSelected: (name) {
                 Navigator.pop(context, name);
               },

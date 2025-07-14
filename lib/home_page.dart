@@ -71,8 +71,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 final selectedStation = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        StationListPage(title: Lang.departure),
+                                    builder: (context) => StationListPage(
+                                      title: Lang.departure,
+                                      excludeStation: _arrivalStation, // 도착역 제외
+                                    ),
                                   ),
                                 );
                                 if (selectedStation != null) {
@@ -119,8 +121,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                 final selectedStation = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        StationListPage(title: Lang.arrival),
+                                    builder: (context) => StationListPage(
+                                      title: Lang.arrival,
+                                      excludeStation:
+                                          _departureStation, // 출발역 제외
+                                    ),
                                   ),
                                 );
                                 if (selectedStation != null) {
