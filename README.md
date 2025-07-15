@@ -19,10 +19,10 @@
 
 ## ⚙️ 실행 예시
 <p align="center">
-  <img src="docs/img1.png" width="100"/>
-  <img src="docs/img2.png" width="100"/>
-  <img src="docs/img3.png" width="100"/>
-  <img src="docs/img4.png" width="100"/>
-  <img src="docs/img5.png" width="100"/>
-  <img src="docs/img6.png" width="100"/>
+  <img src="docs/1.png" width="100"/>
+  <img src="docs/2.png" width="100"/>
+  <img src="docs/3.png" width="100"/>
+  <img src="docs/4.png" width="100"/>
+  <img src="docs/5.png" width="100"/>
+  <img src="docs/6.png" width="100"/>
 </p>
