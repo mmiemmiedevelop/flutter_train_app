@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String? _departureStation;
   String? _arrivalStation;
-  String? _selectedSeat; // 일단만들어둠 > 추후쓸지도...
+  String? _selectedSeat;
 
   @override
   Widget build(BuildContext context) {
@@ -173,23 +173,54 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
+    final currentContext = context;
+    final departureStation = _departureStation!;
+    final arrivalStation = _arrivalStation!;
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => SeatPage(
-          departureStation: _departureStation!,
-          arrivalStation: _arrivalStation!,
+          departureStation: departureStation,
+          arrivalStation: arrivalStation,
         ),
       ),
     ).then((selectedSeat) {
-      if (selectedSeat != null) {
+      // 예매 확인까지 완료되었을 때만 상태 초기화
+      if (selectedSeat != null && currentContext.mounted) {
         _selectedSeat = selectedSeat;
+
+        // mounted 체크 후에 ScaffoldMessenger 사용
+        ScaffoldMessenger.of(currentContext).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    '예매 완료! $selectedSeat',
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
+            duration: const Duration(seconds: 5),
+            backgroundColor: Theme.of(currentContext).colorScheme.primary,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            margin: const EdgeInsets.all(16),
+          ),
+        );
+
+        setState(() {
+          _departureStation = null;
+          _arrivalStation = null;
+        });
       }
-      // SeatPage에서 돌아왔을 때 상태 초기화
-      setState(() {
-        _departureStation = null;
-        _arrivalStation = null;
-      });
+      // selectedSeat가 null이면 사용자가 뒤로가기나 취소를 눌렀으므로 초기화하지 않음
     });
   }
 }

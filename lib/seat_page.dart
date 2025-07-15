@@ -28,9 +28,8 @@ class _SeatPageState extends State<SeatPage> {
     setState(() {
       selectedRow = row;
       selectedCol = col;
-      //좌석 예매 번호 생성>일단만들어 놓음
       selectedSeat =
-          '${widget.departureStation}-${widget.arrivalStation}-${selectedRow}-${selectedCol}';
+          '${widget.departureStation}>${widget.arrivalStation} : ${selectedRow}-${_convertToSeatColumn(selectedCol!)}';
     });
   }
 
