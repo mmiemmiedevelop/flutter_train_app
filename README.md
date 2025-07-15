@@ -26,3 +26,12 @@
   <img src="docs/5.png" width="100"/>
   <img src="docs/6.png" width="100"/>
 </p>
+
+<p align="center">
+  <img src="docs/d1.png" width="100"/>
+  <img src="docs/d2.png" width="100"/>
+  <img src="docs/d3.png" width="100"/>
+  <img src="docs/d4.png" width="100"/>
+  <img src="docs/d5.png" width="100"/>
+  <img src="docs/d6.png" width="100"/>
+</p>
