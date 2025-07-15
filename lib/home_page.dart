@@ -168,12 +168,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _navigateToSeatPage() {
+    // 출발역과 도착역이 선택되지 않았으면 좌석선택으로 이동 못하게 처리
+    if (_departureStation == null || _arrivalStation == null) {
+      return;
+    }
+
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => SeatPage(
-          departureStation: _departureStation ?? '',
-          arrivalStation: _arrivalStation ?? '',
+          departureStation: _departureStation!,
+          arrivalStation: _arrivalStation!,
         ),
       ),
     ).then((selectedSeat) {
