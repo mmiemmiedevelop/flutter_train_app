@@ -12,8 +12,8 @@ class SeatDotView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildLegendBox(Colors.purple, Lang.selected),
-          SizedBox(width: 20),// 사이 간격
-          _buildLegendBox(Colors.grey[300]!, Lang.empty),
+          SizedBox(width: 20), // 사이 간격
+          _buildLegendBox(Theme.of(context).canvasColor, Lang.empty),
         ],
       ),
     );

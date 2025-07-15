@@ -90,6 +90,7 @@ class _SeatPageState extends State<SeatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(title: const Text(Lang.selectSeat)),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

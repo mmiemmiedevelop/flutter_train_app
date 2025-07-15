@@ -24,7 +24,13 @@ class SeatSelectBox extends StatelessWidget {
             child: Column(
               children: [
                 for (int i = 1; i <= rowCount; i++)
-                  row(i, onSelected, selectedRow ?? 0, selectedCol ?? 0),
+                  row(
+                    i,
+                    onSelected,
+                    selectedRow ?? 0,
+                    selectedCol ?? 0,
+                    context,
+                  ),
               ],
             ),
           ),
@@ -65,6 +71,7 @@ class SeatSelectBox extends StatelessWidget {
     Function(int, int) onSelected,
     int selectedRow,
     int selectedCol,
+    BuildContext context, // UI 컬러 전달용 context
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -74,8 +81,8 @@ class SeatSelectBox extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          seat(rowNum, 1, onSelected, selectedRow, selectedCol),
-          seat(rowNum, 2, onSelected, selectedRow, selectedCol),
+          seat(rowNum, 1, onSelected, selectedRow, selectedCol, context),
+          seat(rowNum, 2, onSelected, selectedRow, selectedCol, context),
           SizedBox(
             width: 50,
             height: 50,
@@ -83,8 +90,8 @@ class SeatSelectBox extends StatelessWidget {
               child: Text(rowNum.toString(), style: TextStyle(fontSize: 18)),
             ),
           ),
-          seat(rowNum, 3, onSelected, selectedRow, selectedCol),
-          seat(rowNum, 4, onSelected, selectedRow, selectedCol),
+          seat(rowNum, 3, onSelected, selectedRow, selectedCol, context),
+          seat(rowNum, 4, onSelected, selectedRow, selectedCol, context),
         ],
       ),
     );
@@ -97,6 +104,7 @@ class SeatSelectBox extends StatelessWidget {
     Function(int, int) onSelected,
     int selectedRow,
     int selectedCol,
+    BuildContext context,// UI 컬러 전달용 context
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0), // 가로 간격 4 (좌우 2씩)
@@ -111,7 +119,7 @@ class SeatSelectBox extends StatelessWidget {
             decoration: BoxDecoration(
               color: rowNum == selectedRow && colNum == selectedCol
                   ? Colors.purple
-                  : Colors.grey[300],
+                  : Theme.of(context).canvasColor,
               borderRadius: BorderRadius.circular(8),
             ),
           ),

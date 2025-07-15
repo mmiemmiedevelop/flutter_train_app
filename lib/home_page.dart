@@ -13,7 +13,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String? _departureStation;
   String? _arrivalStation;
-  String? _selectedSeat;// 일단만들어둠 > 추후쓸지도...
+  String? _selectedSeat; // 일단만들어둠 > 추후쓸지도...
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // 2. 바디
   Widget _buildBody() {
     return Container(
-      color: Colors.grey[300],
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: SizedBox(

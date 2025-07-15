@@ -18,6 +18,7 @@ class StationListPage extends StatelessWidget {
         .toList();
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(title: Text(title)),
       body: SafeArea(
         child: ListView.builder(
@@ -58,8 +59,10 @@ class StationListItem extends StatelessWidget {
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         onTap: () => onSelected(stationName),
-        shape: Border(bottom: BorderSide(color: Colors.grey[300]!, width: 1)),
-        tileColor: Colors.white,
+        shape: Border(
+          bottom: BorderSide(color: Theme.of(context).dividerColor, width: 1),
+        ),
+        tileColor: Theme.of(context).cardColor,
       ),
     );
   }
