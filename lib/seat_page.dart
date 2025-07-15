@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_train_app/subView/common_button.dart';
 import 'package:flutter_train_app/subView/seat_dot_view.dart';
 import 'package:flutter_train_app/subView/seat_header_view.dart';
 import 'package:flutter_train_app/subView/seat_select_box.dart';
@@ -109,21 +110,9 @@ class _SeatPageState extends State<SeatPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor: Colors.purple,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 48),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
+            child: CommonButton(
+              text: Lang.reserve,
               onPressed: _showCupertinoDialog,
-              child: const Text(Lang.reserve),
             ),
           ),
         ],

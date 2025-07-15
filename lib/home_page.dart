@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_train_app/subView/common_button.dart';
 import 'station_list_page.dart';
 import 'seat_page.dart';
 import 'constants/lang.dart';
@@ -140,21 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildSelectSeatButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ElevatedButton(
-        style: _getButtonStyle(),
+      child: CommonButton(
+        text: Lang.selectSeat,
         onPressed: _navigateToSeatPage,
-        child: const Text(Lang.selectSeat),
       ),
-    );
-  }
-
-  ButtonStyle _getButtonStyle() {
-    return ElevatedButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      backgroundColor: Colors.purple,
-      foregroundColor: Colors.white,
-      minimumSize: const Size(double.infinity, 48),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     );
   }
 
