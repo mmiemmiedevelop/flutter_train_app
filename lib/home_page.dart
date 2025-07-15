@@ -148,23 +148,22 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  // Future<void> 아무것도 반환하지 않는 "비동기" 함수 > push는 비동기 작업
-  Future<void> _navigateToStationList(
+  void _navigateToStationList(
     String title,
     String? excludeStation,
     Function(String) onStationSelected,
-  ) async {
-    final selectedStation = await Navigator.push(
+  ) {
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
             StationListPage(title: title, excludeStation: excludeStation),
       ),
-    );
-
-    if (selectedStation != null) {
-      onStationSelected(selectedStation);
-    }
+    ).then((selectedStation) {
+      if (selectedStation != null) {
+        onStationSelected(selectedStation);
+      }
+    });
   }
 
   void _navigateToSeatPage() {
